@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Map View | LogiTrek</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html,
+    body,
+    #map {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const g = params.get("geojson");
+    const centerLat = 19.1326, centerLng = 72.9132;
+    const map = L.map("map").setView([centerLat, centerLng], 15);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+    if (g) {
+      try {
+        const geom = JSON.parse(decodeURIComponent(g));
+        const coords = geom.coordinates.map(c => [c[1], c[0]]);
+        const poly = L.polyline(coords, { color: '#4338ca', weight: 5 }).addTo(map);
+        map.fitBounds(poly.getBounds());
+      } catch (e) { console.error(e) }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heavy Vehicle Booking</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-truck me-2 text-primary" viewBox="0 0 16 16">
+          <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+        </svg>
+        LogiTrek
+      </a>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-primary btn-sm px-3" href="/user_panel">Book a Truck</a>
+        <a class="btn btn-primary btn-sm px-3" href="/driver_panel">Driver Portal</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-5">
+    <div class="row align-items-center py-5">
+      <div class="col-lg-7 text-center text-lg-start mb-5 mb-lg-0">
+        <h1 class="display-4 fw-bold mb-3" style="color: var(--text-main); letter-spacing: -1px;">
+          Smart Freight <span style="color: var(--primary);">Simplified</span>
+        </h1>
+        <p class="lead text-muted mb-4">
+          Connect with verified drivers instantly. Real-time tracking, dynamic pricing, and smart route optimization for all your heavy vehicle transport needs.
+        </p>
+        <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+          <a href="/user_panel" class="btn btn-primary btn-lg px-4 shadow-sm">Start Booking</a>
+          <a href="/driver_panel" class="btn btn-outline-secondary btn-lg px-4 border bg-white shadow-sm">Drive with Us</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Truck" class="img-fluid rounded-4 shadow-lg" style="object-fit:cover; height:400px; width:100%; border-radius: 16px;" />
+      </div>
+    </div>
+
+    <div class="row mt-5 g-4">
+      <div class="col-md-6">
+        <div class="card card-hover h-100 p-2 border-0 shadow-sm">
+          <div class="card-body">
+            <h4 class="mb-4 d-flex align-items-center">
+              <span class="bg-primary text-white rounded p-2 me-3 d-inline-flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                </svg>
+              </span>
+              Platform Features
+            </h4>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item bg-transparent d-flex align-items-center">
+                <span class="text-primary me-2 fw-bold">✓</span> Real-time tracking of goods and vehicles
+              </li>
+              <li class="list-group-item bg-transparent d-flex align-items-center">
+                <span class="text-primary me-2 fw-bold">✓</span> Dynamic pricing based on demand and distance
+              </li>
+              <li class="list-group-item bg-transparent d-flex align-items-center">
+                <span class="text-primary me-2 fw-bold">✓</span> Smart route optimization for minimal fuel
+              </li>
+              <li class="list-group-item bg-transparent d-flex align-items-center border-0">
+                <span class="text-primary me-2 fw-bold">✓</span> Live estimated time of arrival (ETA)
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-hover h-100 p-2 border-0 shadow-sm">
+          <div class="card-body">
+            <h4 class="mb-4 d-flex align-items-center">
+              <span class="bg-primary text-white rounded p-2 me-3 d-inline-flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
+                  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                  <path d="m6.5 6.5 3-1.5-1.5 3-3 1.5 1.5-3z"/>
+                </svg>
+              </span>
+              How It Works
+            </h4>
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex border p-3 rounded-3 bg-light">
+                <div class="me-3 fw-bold text-primary fs-5">1</div>
+                <div>
+                  <h6 class="mb-1 text-dark fw-bold">Enter Details</h6>
+                  <p class="mb-0 text-muted small">Select pickup and delivery locations along with cargo weight.</p>
+                </div>
+              </div>
+              <div class="d-flex border p-3 rounded-3 bg-light">
+                <div class="me-3 fw-bold text-primary fs-5">2</div>
+                <div>
+                  <h6 class="mb-1 text-dark fw-bold">Get Instant Quote</h6>
+                  <p class="mb-0 text-muted small">View upfront pricing and optimized route instantly.</p>
+                </div>
+              </div>
+              <div class="d-flex border p-3 rounded-3 bg-light">
+                <div class="me-3 fw-bold text-primary fs-5">3</div>
+                <div>
+                  <h6 class="mb-1 text-dark fw-bold">Track & Confirm</h6>
+                  <p class="mb-0 text-muted small">Monitor shipment live and confirm successful delivery.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

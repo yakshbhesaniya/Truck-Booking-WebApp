@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Portal | LogiTrek</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link href="/static/css/style.css" rel="stylesheet">
+  <style>
+    .truck-badge {
+      font-size: .78rem;
+      padding: .25rem .65rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .truck-light {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .truck-small {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .truck-big {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .stop-row {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: .6rem 1rem;
+      margin-bottom: .5rem;
+    }
+
+    #stopsContainer select {
+      font-size: .9rem;
+    }
+
+    .leg-item {
+      background: #f0fdf4;
+      border-radius: 8px;
+      padding: .4rem .75rem;
+      font-size: .85rem;
+      margin-bottom: .3rem;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+          class="bi bi-truck me-2 text-primary" viewBox="0 0 16 16">
+          <path
+            d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+        </svg>
+        User Portal
+      </a>
+      <a class="btn btn-outline-secondary btn-sm px-3 rounded-pill" href="/">Home</a>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+    <div class="row g-4">
+
+      <!-- ── Left Panel ─────────────────────────────── -->
+      <div class="col-lg-4">
+
+        <!-- Booking Form -->
+        <div id="bookingFormCard" class="card card-hover p-4 border-0 mb-4">
+          <h5 class="mb-4">Book a Truck</h5>
+
+          <div class="mb-3">
+            <label class="form-label text-muted small fw-bold text-uppercase">Pickup Location</label>
+            <select id="pickup" class="form-select bg-light"></select>
+          </div>
+
+          <!-- Intermediate Stops -->
+          <div id="stopsSection" class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <label class="form-label text-muted small fw-bold text-uppercase mb-0">Intermediate Stops</label>
+              <button id="addStopBtn" class="btn btn-sm btn-outline-secondary py-0 px-2" onclick="addStop()"
+                style="font-size:.8rem;">+ Add Stop</button>
+            </div>
+            <div id="stopsContainer"></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted small fw-bold text-uppercase">Drop Location</label>
+            <select id="drop" class="form-select bg-light"></select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted small fw-bold text-uppercase">Cargo Weight (kg)</label>
+            <input id="weight" class="form-control bg-light" type="number" value="1000" min="1" />
+            <div id="truckBadge" class="mt-2"></div>
+          </div>
+
+          <!-- Manual Truck Selection Options (Mixed) -->
+          <div class="mb-3 p-3 bg-light rounded border border-light-subtle">
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="manualTrucksCheck">
+              <label class="form-check-label text-muted small fw-bold text-uppercase mt-1" for="manualTrucksCheck">
+                Manually Select Trucks
+              </label>
+            </div>
+
+            <div id="manualTrucksDiv" class="d-none">
+              <div class="row gx-2 mb-2 align-items-center">
+                <div class="col-7 small">Light Truck (&lt;1t)</div>
+                <div class="col-5"><input type="number" id="countLight" class="form-control form-control-sm" min="0"
+                    value="0"></div>
+              </div>
+              <div class="row gx-2 mb-2 align-items-center">
+                <div class="col-7 small">Small Truck (1-3t)</div>
+                <div class="col-5"><input type="number" id="countSmall" class="form-control form-control-sm" min="0"
+                    value="0"></div>
+              </div>
+              <div class="row gx-2 align-items-center">
+                <div class="col-7 small">Big Truck (&gt;3t)</div>
+                <div class="col-5"><input type="number" id="countBig" class="form-control form-control-sm" min="0"
+                    value="0"></div>
+              </div>
+
+              <div id="truckCapacityWarning" class="alert alert-danger small mt-3 py-1 px-2 mb-0 d-none">
+                <i class="bi bi-exclamation-triangle-fill"></i> Not enough capacity for cargo!
+              </div>
+            </div>
+          </div>
+
+          <!-- Estimate result -->
+          <div id="estBoxCard" class="p-3 bg-light rounded-3 mb-3 d-none">
+            <div id="estBox" class="small text-dark"></div>
+            <div id="legsBox" class="mt-2"></div>
+          </div>
+
+          <div class="d-flex flex-column gap-2 mb-2">
+            <button id="estimateBtn" class="btn btn-outline-primary py-2 fw-semibold">Calculate Fare</button>
+            <button id="bookBtn" class="btn btn-primary py-2 shadow-sm">Confirm Booking</button>
+          </div>
+          <div id="bookRes" class="mt-2 text-center small fw-medium"></div>
+          <!-- Static tip only shown before any booking is made -->
+          <div id="driverTip" class="alert alert-info mt-3 py-2 px-3 small border-0 bg-info-subtle text-info-emphasis">
+            Waiting for a driver to confirm
+          </div>
+        </div>
+
+        <!-- Trip Summary -->
+        <div id="tripSummaryCard" class="card p-4 border-0 shadow-lg"
+          style="display:none; background:linear-gradient(to bottom right,#fff,#f8fafc);">
+          <h5 class="mb-4 d-flex justify-content-between align-items-center">
+            Current Trip
+            <span class="status-badge" id="sumStatus">-</span>
+          </h5>
+
+          <div class="summary-row"><span class="summary-label">Booking ID</span><span
+              class="summary-value text-muted font-monospace" id="sumBookingId"></span></div>
+          <div class="summary-row"><span class="summary-label">From</span><span class="summary-value"
+              id="sumPickup"></span></div>
+          <div class="summary-row"><span class="summary-label">To</span><span class="summary-value" id="sumDrop"></span>
+          </div>
+          <div id="sumStopsRow" class="summary-row d-none"><span class="summary-label">Stops</span><span
+              class="summary-value" id="sumStops"></span></div>
+          <div class="summary-row"><span class="summary-label">Truck Type</span><span class="summary-value"
+              id="sumTruckType"></span></div>
+          <div class="summary-row"><span class="summary-label">Trucks</span><span class="summary-value"
+              id="sumNumTrucks"></span></div>
+          <div class="summary-row"><span class="summary-label">Distance</span><span class="summary-value"
+              id="sumDistance"></span></div>
+          <div class="summary-row"><span class="summary-label">ETA</span><span class="summary-value text-primary"
+              id="sumEta"></span></div>
+          <div class="summary-row"><span class="summary-label">Halt Charge</span><span
+              class="summary-value text-warning" id="sumHaltCharge">₹0</span></div>
+          <div class="summary-row pt-3 mt-2 border-top border-2">
+            <span class="summary-label text-dark fs-6">Total Fare</span>
+            <span class="summary-value text-success fs-5">₹<span id="sumCost"></span></span>
+          </div>
+
+          <!-- Stop-specific confirm buttons (injected dynamically) -->
+          <div id="stopActionsContainer" class="mt-3"></div>
+
+          <!-- Status indicator for user -->
+          <div id="userActionStatus" class="alert alert-secondary py-2 small mt-3 mb-0 d-none text-center">
+            Waiting for driver...
+          </div>
+
+          <!-- Actions Wrapper -->
+          <div class="d-flex gap-2 mt-3">
+            <!-- Pickup confirm -->
+            <button id="userLoadedBtn" class="btn btn-success flex-grow-1 py-2 shadow-sm" style="display:none"
+              onclick="confirmUserLoaded()">
+              ✓ Confirm Cargo Loaded
+            </button>
+            <!-- Cancel Booking -->
+            <button id="userCancelBtn" class="btn btn-outline-danger py-2 shadow-sm" style="display:none"
+              onclick="cancelBooking()">
+              Cancel Trip
+            </button>
+          </div>
+        </div>
+      </div><!-- /col -->
+
+      <!-- ── Right: Map ─────────────────────────────── -->
+      <div class="col-lg-8">
+        <div
+          class="card p-2 border-0 mb-3 bg-white shadow-sm d-flex flex-row align-items-center justify-content-between">
+          <span class="text-muted fw-bold small text-uppercase">Status:&nbsp;<span id="statusText"
+              class="fw-semibold text-primary">Ready to book</span></span>
+          <div class="spinner-grow spinner-grow-sm text-primary" role="status" style="opacity:.4;"></div>
+        </div>
+        <div id="map" style="height:600px; width:100%; border-radius:12px; z-index:1;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/static/js/jquery-3.6.4.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/static/js/user.js"></script>
+</body>
+
+</html>
